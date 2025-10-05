@@ -75,10 +75,10 @@ func TestRecall(t *testing.T) {
 		},
 	}
 
-	for i, c := range cases {
+	for _, c := range cases {
 		got := reval.Recall(c.predicted, c.relevance, c.k)
 		if !reval.IsClose(got, c.want) {
-			t.Errorf("case %d: got=%v, want=%v", i, got, c.want)
+			t.Errorf("got=%v, want=%v", got, c.want)
 		}
 	}
 }
