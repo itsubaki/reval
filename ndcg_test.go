@@ -21,7 +21,7 @@ func ExampleNDCG() {
 	fmt.Println("NDCG@3:", s)
 
 	// Output:
-	// NDCG@3: 0.8080824371047749
+	// NDCG@3: 0.7271926019583822
 }
 
 func TestNDCG(t *testing.T) {
@@ -43,14 +43,14 @@ func TestNDCG(t *testing.T) {
 			predicted: []string{"C", "B", "A"},
 			relevance: map[string]int{"A": 3, "B": 2, "C": 1},
 			k:         3,
-			want:      0.7899980042460358,
+			want:      0.680606056760201,
 		},
 		{
 			// Partial match in top-2
 			predicted: []string{"B", "A"},
 			relevance: map[string]int{"A": 3, "B": 2, "C": 1},
 			k:         2,
-			want:      0.9134015924715544,
+			want:      0.8339912323981489,
 		},
 		{
 			// No relevant items in prediction

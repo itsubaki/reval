@@ -34,7 +34,7 @@ func NDCG(predicted []string, relevance map[string]int, k int) float64 {
 func DCG(relevance []int) float64 {
 	var s float64
 	for i, rel := range relevance {
-		s += float64(rel) / math.Log2(float64(i+2))
+		s += (math.Pow(2, float64(rel)) - 1) / math.Log2(float64(i+2))
 	}
 
 	return s
