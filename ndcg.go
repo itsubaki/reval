@@ -7,18 +7,18 @@ import (
 
 func NDCG(predicted []string, relevance map[string]int, k int) float64 {
 	// ideal
-	var ideal []int
+	var relv []int
 	for _, v := range relevance {
-		ideal = append(ideal, v)
+		relv = append(relv, v)
 	}
-	sort.Slice(ideal, func(i, j int) bool { return ideal[i] > ideal[j] })
+	sort.Slice(relv, func(i, j int) bool { return relv[i] > relv[j] })
 
 	// top k
-	ideal = ideal[:min(k, len(ideal))]
+	ideal := relv[:min(k, len(relv))]
 
 	// max DCG
 	dcg := DCG(ideal)
-	if IsClose(dcg, 0.0) {
+	if IsZero(dcg) {
 		return 0.0
 	}
 
@@ -38,6 +38,10 @@ func DCG(relevance []int) float64 {
 	}
 
 	return s
+}
+
+func IsZero(a float64) bool {
+	return IsClose(a, 0.0)
 }
 
 func IsClose(a, b float64) bool {
