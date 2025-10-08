@@ -5,7 +5,7 @@ import "math"
 // BERTScore returns the BERTScore between candidates and refs.
 func BERTScore(candidates, refs [][]float64) (precision, recall, f1 float64) {
 	if len(candidates) == 0 || len(refs) == 0 {
-		return 0, 0, 0
+		return
 	}
 
 	precision = maxsumavg(candidates, refs)
