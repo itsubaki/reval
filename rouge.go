@@ -12,7 +12,7 @@ func ROUGEL(candidates, refs []string) (precision, recall, f1 float64) {
 
 func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (precision, recall, f1 float64) {
 	if len(candidates) == 0 || len(refs) == 0 {
-		return 0, 0, 0
+		return
 	}
 
 	// overlap, LCS, ...
@@ -22,7 +22,6 @@ func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (
 	precision = float64(matched) / float64(len(candidates))
 	recall = float64(matched) / float64(len(refs))
 	f1 = FBeta(precision, recall, beta)
-
 	return
 }
 
