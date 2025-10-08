@@ -21,9 +21,7 @@ func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (
 	// score
 	precision = float64(matched) / float64(len(candidates))
 	recall = float64(matched) / float64(len(refs))
-	if precision+recall > 0 {
-		f1 = FBeta(precision, recall, beta)
-	}
+	f1 = FBeta(precision, recall, beta)
 
 	return
 }
