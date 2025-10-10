@@ -10,7 +10,7 @@ func ROUGEL(candidates, refs []string) (precision, recall, f1 float64) {
 	return rouge(candidates, refs, 1.0, LCS)
 }
 
-func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (precision, recall, f1 float64) {
+func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (precision, recall, fbeta float64) {
 	if len(candidates) == 0 || len(refs) == 0 {
 		return
 	}
@@ -21,7 +21,7 @@ func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (
 	// score
 	precision = float64(matched) / float64(len(candidates))
 	recall = float64(matched) / float64(len(refs))
-	f1 = FBeta(precision, recall, beta)
+	fbeta = FBeta(precision, recall, beta)
 	return
 }
 
@@ -68,6 +68,11 @@ func LCS(a, b []string) int {
 	}
 
 	return dp[m][n]
+}
+
+// F1 returns the F1 score given precision and recall.
+func F1(precision, recall float64) float64 {
+	return FBeta(precision, recall, 1.0)
 }
 
 // FBeta returns the F-beta score given precision and recall.

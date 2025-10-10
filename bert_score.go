@@ -10,7 +10,7 @@ func BERTScore(candidates, refs [][]float64) (precision, recall, f1 float64) {
 
 	precision = maxsumavg(candidates, refs)
 	recall = maxsumavg(refs, candidates)
-	f1 = FBeta(precision, recall, 1.0)
+	f1 = F1(precision, recall)
 	return
 }
 
