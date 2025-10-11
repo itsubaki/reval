@@ -40,12 +40,17 @@ func DCG(relevance []int) float64 {
 	return s
 }
 
+const (
+	AbsTol = 1e-08
+	RelTol = 1e-05
+)
+
 func IsZero(a float64) bool {
 	return IsClose(a, 0.0)
 }
 
 func IsClose(a, b float64) bool {
-	return isClose(a, b, 1e-08, 1e-05)
+	return isClose(a, b, AbsTol, RelTol)
 }
 
 func isClose(a, b float64, atol, rtol float64) bool {

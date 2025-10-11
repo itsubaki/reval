@@ -59,7 +59,7 @@ func L2Norm(a []float64) float64 {
 // Normalize returns the L2-normalized version of vector a.
 func Normalize(a []float64) []float64 {
 	norm := L2Norm(a)
-	if norm == 0 {
+	if IsZero(norm) {
 		return a
 	}
 
