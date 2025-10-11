@@ -10,6 +10,43 @@ func ROUGEL(candidates, refs []string) (precision, recall, f1 float64) {
 	return rouge(candidates, refs, 1.0, LCS)
 }
 
+// ROUGELsum returns the ROUGE-Lsum score for multiple sentences.
+func ROUGELsum(candidates, refs [][]string) (precision, recall, f1 float64) {
+	if len(candidates) == 0 || len(refs) == 0 {
+		return
+	}
+
+	var totalRef int
+	for _, ref := range refs {
+		totalRef += len(ref)
+	}
+
+	var totalLCS, totalCand int
+	for _, cand := range candidates {
+		// find the best matching reference
+		var maxLCS int
+		for _, ref := range refs {
+			lcs := LCS(cand, ref)
+			if lcs > maxLCS {
+				maxLCS = lcs
+			}
+		}
+
+		// accumulate
+		totalLCS += maxLCS
+		totalCand += len(cand)
+	}
+
+	if totalCand == 0 || totalRef == 0 {
+		return
+	}
+
+	precision = float64(totalLCS) / float64(totalCand)
+	recall = float64(totalLCS) / float64(totalRef)
+	f1 = F1(precision, recall)
+	return
+}
+
 func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (precision, recall, fbeta float64) {
 	if len(candidates) == 0 || len(refs) == 0 {
 		return

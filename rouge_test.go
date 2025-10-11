@@ -29,6 +29,25 @@ func ExampleROUGEL() {
 	// 0.7143, 0.8333, 0.7692
 }
 
+func ExampleROUGELsum() {
+	candidates := [][]string{
+		{"the", "cat", "is", "on", "the", "mat"},
+		{"it", "is", "cute"},
+	}
+
+	refs := [][]string{
+		{"the", "dog", "is", "on", "the", "mat"},
+		{"the", "animal", "is", "cute"},
+		{"the", "pet", "sleeps", "well"},
+	}
+
+	precision, recall, f1 := reval.ROUGELsum(candidates, refs)
+	fmt.Printf("%.4f, %.4f, %.4f\n", precision, recall, f1)
+
+	// Output:
+	// 0.7778, 0.5000, 0.6087
+}
+
 func TestROUGE1(t *testing.T) {
 	cases := []struct {
 		candidates []string
@@ -193,6 +212,61 @@ func TestROUGEL(t *testing.T) {
 
 	for _, c := range cases {
 		precision, recall, f1 := reval.ROUGEL(c.candidates, c.refs)
+		if !reval.IsClose(precision, c.precision) {
+			t.Errorf("got=%v, want=%v", precision, c.precision)
+		}
+
+		if !reval.IsClose(recall, c.recall) {
+			t.Errorf("got=%v, want=%v", recall, c.recall)
+		}
+
+		if !reval.IsClose(f1, c.f1) {
+			t.Errorf("got=%v, want=%v", f1, c.f1)
+		}
+	}
+}
+
+func TestROUGELsum(t *testing.T) {
+	cases := []struct {
+		candidates [][]string
+		refs       [][]string
+		precision  float64
+		recall     float64
+		f1         float64
+	}{
+		{
+			candidates: [][]string{},
+			refs:       [][]string{},
+			precision:  0.0,
+			recall:     0.0,
+			f1:         0.0,
+		},
+		{
+			candidates: [][]string{
+				{},
+			},
+			refs: [][]string{
+				{},
+			},
+			precision: 0.0,
+			recall:    0.0,
+			f1:        0.0,
+		},
+		{
+			candidates: [][]string{
+				{"a", "b", "c"},
+			},
+			refs: [][]string{
+				{"a", "b", "c"},
+			},
+			precision: 1.0,
+			recall:    1.0,
+			f1:        1.0,
+		},
+	}
+
+	for _, c := range cases {
+		precision, recall, f1 := reval.ROUGELsum(c.candidates, c.refs)
 		if !reval.IsClose(precision, c.precision) {
 			t.Errorf("got=%v, want=%v", precision, c.precision)
 		}
