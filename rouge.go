@@ -16,11 +16,11 @@ func rouge(candidates, refs []string, beta float64, f func(a, b []string) int) (
 	}
 
 	// overlap, LCS, ...
-	matched := f(candidates, refs)
+	hit := f(candidates, refs)
 
 	// score
-	precision = float64(matched) / float64(len(candidates))
-	recall = float64(matched) / float64(len(refs))
+	precision = float64(hit) / float64(len(candidates))
+	recall = float64(hit) / float64(len(refs))
 	fbeta = FBeta(precision, recall, beta)
 	return
 }
